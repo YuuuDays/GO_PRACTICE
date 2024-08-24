@@ -10,7 +10,7 @@ xxx_test.goのようなはファイル名
 import "testing"の記載が必要
 */
 
-func TestMain(t *testing.T) {
+func TestHello(t *testing.T) {
 	t.Run("saying hello to people", func(t *testing.T) {
 		got := Hello("Chris")
 		want := "Hello, Chris"
@@ -19,5 +19,12 @@ func TestMain(t *testing.T) {
 			t.Errorf("got %q want %q", got, want)
 		}
 	})
+	t.Run("これはどうなの", func(t *testing.T) {
+		got := Hello("")
+		want := "Hello, World"
 
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+	})
 }

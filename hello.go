@@ -12,3 +12,12 @@ func main() {
 
 	fmt.Println(Hello("word"))
 }
+
+/*
+var mes string = "Hello"
+var mes = "Hello"
+mee := "Hello"
+or
+[var mes string
+mes = "Hello"]
+*/
