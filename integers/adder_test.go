@@ -14,7 +14,10 @@ func TestAdder(t *testing.T) {
 	}
 }
 
+// サンプル関数
+// Goのテストツール'ExampleXxx()'関数内の'// Output:'という特別なコメントを自動的に読み取る
 func ExampleAdd() {
 	sum := Add(1, 5)
 	fmt.Println(sum)
+	// Output:6
 }
