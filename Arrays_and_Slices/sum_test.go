@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -25,6 +26,22 @@ func TestSum(t *testing.T) {
 			t.Errorf("got:(%q),want:(%q)", got, want)
 		}
 	})
+}
+
+func TestSumAll(t *testing.T) {
+
+	got := SumAll([]int{1, 2}, []int{0, 9})
+	want := []int{3, 9}
+
+	// スライスの内容は比較演算で比較できない
+	// if got != want {
+	//     t.Errorf("got %v want %v", got, want)
+	// }
+
+	// reflect.DeepEqualは同じかどうか判定してくれる
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got:(%v),want:(%v)", got, want)
+	}
 }
 
 func BenchmarkRepeat(b *testing.B) {

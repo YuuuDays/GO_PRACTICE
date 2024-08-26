@@ -15,3 +15,10 @@ func Sum(numbers []int) int {
 	// }
 	return sum
 }
+
+func SumAll(numbersToSum ...[]int) (sums []int) {
+	countNum := len(numbersToSum)
+
+	for 
+	return
+}
