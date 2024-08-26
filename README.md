@@ -9,6 +9,10 @@ xxx_test.goのようなファイル名
 import "testing"の記載が必要
 
 # ベンチマークTest出力結果見方
+[コマンド]
+go test -bench="ベンチマーク関数の名前"
+例:
+go test -bench=BenchmarkRepeat_B 
 [内容]
 goos: windows
 goarch: amd64
@@ -57,3 +61,17 @@ sliceWithCap := make([]int, 5, 10) // 長さ5、容量10のスライスを作成
 長さを調べるときは"len()",容量を調べるときは"cap()",(sliceの場合)配列への追加は"append"
 
 "長さ"はスライスやmapに実際に格納されているデータ数、"容量"はその配列の最大数
+
+append関数は、第一引数にslice配列を、第二引数以降には要素を入れる事で
+    第一引数の配列の後ろへ追加する
+
+    numbers := []int{1, 2, 3}
+    numbers = append(numbers, 4, 5, 6)
+
+    fmt.Println(numbers) // 出力: [1 2 3 4 5 6]
+
+    moreNumbers := []int{7, 8, 9}
+    numbers = append(numbers, moreNumbers...)
+
+    fmt.Println(numbers) // 出力: [1 2 3 4 5 6 7 8 9]
+
