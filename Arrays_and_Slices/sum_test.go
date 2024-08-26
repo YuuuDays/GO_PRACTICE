@@ -50,3 +50,10 @@ func BenchmarkRepeat(b *testing.B) {
 		Sum(numbers)
 	}
 }
+
+func BenchmarkRepeat_B(b *testing.B) {
+	numbers := SumAll([]int{1, 2}, []int{0, 9})
+	for i := 0; i < b.N; i++ {
+		Sum(numbers)
+	}
+}

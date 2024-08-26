@@ -18,7 +18,10 @@ func Sum(numbers []int) int {
 
 func SumAll(numbersToSum ...[]int) (sums []int) {
 	countNum := len(numbersToSum)
+	sumSlice := make([]int, countNum)
 
-	for 
-	return
+	for i, num := range numbersToSum {
+		sumSlice[i] += Sum(num)
+	}
+	return sumSlice
 }
