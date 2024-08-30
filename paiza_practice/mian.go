@@ -64,13 +64,12 @@ ok      github.com/YuuHikida/GO_PRACTICE/paiza_practice 1.665s
 // }
 
 /*
-	リファクタリング後(chatGPT)
-	BenchmarkRepeat-16
-	7322055               162.6 ns/op           248 B/op          5 allocs/op
-	PASS
-	ok      github.com/YuuHikida/GO_PRACTICE/paiza_practice 1.528s
+リファクタリング後(chatGPT)
+BenchmarkRepeat-16
+7322055               162.6 ns/op           248 B/op          5 allocs/op
+PASS
+ok      github.com/YuuHikida/GO_PRACTICE/paiza_practice 1.528s
 */
-
 func CalculateTotal(num int, discount int, inputs2 []string) int {
 	var maxValue int
 	var ans int
