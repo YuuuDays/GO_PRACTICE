@@ -19,38 +19,75 @@ func main() {
 	sc.Scan()
 	inputs2 := strings.Split(sc.Text(), " ")
 
-	ans := CaluculateTotal(num, discount, inputs2)
+	ans := CalculateTotal(num, discount, inputs2)
 
 	// 答え
 	fmt.Println(ans)
 
 }
 
-// リファクタリング前↓
-func CaluculateTotal(num int, discount int, inputs2 []string) int {
-	var ps []int
+/*
+リファクタリング前↓
+自分で書いたコード
+benchMark結果:
 
+7310925               181.3 ns/op           248 B/op          5 allocs/op
+PASS
+ok      github.com/YuuHikida/GO_PRACTICE/paiza_practice 1.665s
+*/
+// func CalculateTotal(num int, discount int, inputs2 []string) int {
+// 	var ps []int
+
+// 	var maxValue int
+// 	var sub int
+
+// 	for n, input := range inputs2 {
+// 		p, _ := strconv.Atoi(input)
+
+// 		if maxValue < p {
+// 			maxValue = p
+// 			sub = n
+// 		}
+// 		ps = append(ps, p)
+// 	}
+
+// 	if discount < maxValue {
+// 		ps[sub] = maxValue / 2
+// 	}
+
+// 	var ans int
+// 	//　合算
+// 	for i := 0; i < num; i++ {
+// 		ans += ps[i]
+// 	}
+// 	return ans
+// }
+
+/*
+	リファクタリング後(chatGPT)
+	BenchmarkRepeat-16
+	7322055               162.6 ns/op           248 B/op          5 allocs/op
+	PASS
+	ok      github.com/YuuHikida/GO_PRACTICE/paiza_practice 1.528s
+*/
+
+func CalculateTotal(num int, discount int, inputs2 []string) int {
 	var maxValue int
-	var sub int
+	var ans int
 
-	for n, input := range inputs2 {
-		p, _ := strconv.Atoi(input)
+	for n := 0; n < num; n++ {
+		p, _ := strconv.Atoi(inputs2[n])
 
-		if maxValue < p {
+		if p > maxValue {
 			maxValue = p
-			sub = n
 		}
-		ps = append(ps, p)
+		ans += p
 	}
 
 	if discount < maxValue {
-		ps[sub] = maxValue / 2
+		ans -= maxValue     // 最大値を引く
+		ans += maxValue / 2 // 割引後の値を足す
 	}
 
-	var ans int
-	//　合算
-	for i := 0; i < num; i++ {
-		ans += ps[i]
-	}
 	return ans
 }
