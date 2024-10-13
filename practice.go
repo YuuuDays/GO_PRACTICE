@@ -1,10 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"net/http"
-	"os"
 	"reflect"
+
+	"golang.org/x/sync/errgroup"
 )
 
 // 構造体(スライスに関して)
@@ -73,10 +76,41 @@ func httpPractice_1() {
 		}),
 	)
 
-	if err != nil {
+	if err := run(context.Background()); err != nil {
 		fmt.Printf("falied to terminate server :%v", err)
-		os.Exit(1)
 	}
+
+}
+
+func run(ctx context.Context) error {
+	s := &http.Server{
+		Addr: ":18080",
+		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprintf(w, "Hello,%s", r.URL.Path[1:])
+		}),
+	}
+	/*
+		WithContextを使うことで、コンテキストがゴルーチン間で共有され、
+		ゴルーチン全体が同じキャンセルやタイムアウトの制御を受けます。
+	*/
+	eg, ctx := errgroup.WithContext(ctx)
+
+	// 別ゴルーチンでHTTPサーバーを起動する
+	eg.Go(func() error {
+		if err := s.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Printf("failed to close :%+v", err)
+			return err
+		}
+		return nil
+	})
+
+	// チャンネルからの通知を待機する
+	<-ctx.Done()
+	if err := s.Shutdown(context.Background()); err != nil {
+		log.Printf("failed to shutdown:%+v", err)
+	}
+	// GOメソッドで起動した別後ルーチンの終了を待つ
+	return eg.Wait()
 }
 
 func main() {
