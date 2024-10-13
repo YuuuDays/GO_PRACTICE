@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"os"
 	"reflect"
 )
 
@@ -62,8 +64,24 @@ func type_confirmation() {
 
 }
 
+// ただのhttp.ListenAndServer
+func httpPractice_1() {
+	err := http.ListenAndServe(
+		":18080",
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprintf(w, "Hello,%s!", r.URL.Path[1:])
+		}),
+	)
+
+	if err != nil {
+		fmt.Printf("falied to terminate server :%v", err)
+		os.Exit(1)
+	}
+}
+
 func main() {
 	//slice_confirmation()
-	type_confirmation()
+	//type_confirmation()
+	httpPractice_1()
 
 }
