@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"reflect"
+	"time"
 
 	"golang.org/x/sync/errgroup"
 )
@@ -65,51 +68,52 @@ func type_confirmation() {
 
 }
 
-// ただのhttp.ListenAndServer
-// func httpPractice_1() {
-// 	err := http.ListenAndServe(
-// 		":18080",
-// 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-// 			fmt.Fprintf(w, "Hello,%s!", r.URL.Path[1:])
-// 		}),
-// 	)
+/*ただのhttp.ListenAndServer*/
+func httpPractice_1() {
+	err := http.ListenAndServe(
+		":18080",
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprintf(w, "Hello,%s!", r.URL.Path[1:])
+		}),
+	)
 
-// 	if err := run(context.Background()); err != nil {
-// 		fmt.Printf("falied to terminate server :%v", err)
-// 	}
+	if err := run(context.Background()); err != nil {
+		fmt.Printf("falied to terminate server :%v", err)
+	}
 
-// }
+	fmt.Println(err)
+}
 
-// func run(ctx context.Context) error {
-// 	s := &http.Server{
-// 		Addr: ":18080",
-// 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-// 			fmt.Fprintf(w, "Hello,%s", r.URL.Path[1:])
-// 		}),
-// 	}
-// 	/*
-// 		WithContextを使うことで、コンテキストがゴルーチン間で共有され、
-// 		ゴルーチン全体が同じキャンセルやタイムアウトの制御を受けます。
-// 	*/
-// 	eg, ctx := errgroup.WithContext(ctx)
+func run(ctx context.Context) error {
+	s := &http.Server{
+		Addr: ":18080",
+		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprintf(w, "Hello,%s", r.URL.Path[1:])
+		}),
+	}
+	/*
+		WithContextを使うことで、コンテキストがゴルーチン間で共有され、
+		ゴルーチン全体が同じキャンセルやタイムアウトの制御を受けます。
+	*/
+	eg, ctx := errgroup.WithContext(ctx)
 
-// 	// 別ゴルーチンでHTTPサーバーを起動する
-// 	eg.Go(func() error {
-// 		if err := s.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-// 			log.Printf("failed to close :%+v", err)
-// 			return err
-// 		}
-// 		return nil
-// 	})
+	// 別ゴルーチンでHTTPサーバーを起動する
+	eg.Go(func() error {
+		if err := s.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Printf("failed to close :%+v", err)
+			return err
+		}
+		return nil
+	})
 
-// 	// チャンネルからの通知を待機する
-// 	<-ctx.Done()
-// 	if err := s.Shutdown(context.Background()); err != nil {
-// 		log.Printf("failed to shutdown:%+v", err)
-// 	}
-// 	// GOメソッドで起動した別後ルーチンの終了を待つ
-// 	return eg.Wait()
-// //}
+	// チャンネルからの通知を待機する
+	<-ctx.Done()
+	if err := s.Shutdown(context.Background()); err != nil {
+		log.Printf("failed to shutdown:%+v", err)
+	}
+	// GOメソッドで起動した別後ルーチンの終了を待つ
+	return eg.Wait()
+}
 
 func errgroup_practice() {
 	g := new(errgroup.Group)
@@ -141,10 +145,49 @@ func errgroup_practice() {
 	}
 }
 
+/* contexの使い方練習*/
+func contex_practice_1() {
+	/* "ctx"はctx.Done() というチャネルでキャンセル通知を待つことができる */
+	/* "cancel" キャンセル操作を行う関数。ctx.Done()が「完了した」という通知を送る*/
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel() //記載した関数が終わり次第cancelを行ってくれる(明示的に書く必要はないが習慣として書く)
+
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				fmt.Println("ゴルーチンがキャンセル")
+				return
+			default:
+				fmt.Println("ゴルーチンが実行中です")
+				time.Sleep(time.Second)
+			}
+
+		}
+	}()
+
+	fmt.Println("cancelのtypeは～～？->", reflect.TypeOf(cancel)) // context.CancelFunc
+
+	// メインプログラムを5秒間実行し、ゴルーチンに実行時間を与える
+	time.Sleep(5 * time.Second)
+
+	// ゴルーチンをキャンセル
+	cancel()
+
+	// キャンセルメッセージを確認するためにさらに1秒待つ
+	time.Sleep(2 * time.Second)
+
+	fmt.Println(ctx)
+
+}
 func main() {
 	//slice_confirmation()
 	//type_confirmation()
 	//httpPractice_1()
 
-	errgroup_practice() // ←ゴルーチン(errgroupテスト)
+	/* ゴルーチン(errgroupテスト)*/
+	//errgroup_practice()
+
+	contex_practice_1()
+
 }
