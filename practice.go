@@ -145,7 +145,15 @@ func errgroup_practice() {
 	}
 }
 
-/* contexの使い方練習*/
+/*
+	contexの使い方練習
+
+以下解説
+1.非同期ゴルーチン開始 → for文が回り続ける（default で「ゴルーチンが実行中です」を表示）。
+2.メインで time.Sleep(5 * time.Second) → 5秒間ゴルーチンが動き続ける。
+3.cancel() 呼び出し → ctx.Done() のチャネルが閉じる。
+4.case <-ctx.Done() が実行され、ゴルーチンが終了。
+*/
 func contex_practice_1() {
 	/* "ctx"はctx.Done() というチャネルでキャンセル通知を待つことができる */
 	/* "cancel" キャンセル操作を行う関数。ctx.Done()が「完了した」という通知を送る*/
