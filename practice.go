@@ -188,14 +188,15 @@ func contex_practice_1() {
 	fmt.Println(ctx)
 
 }
-func main() {
-	//slice_confirmation()
-	//type_confirmation()
-	//httpPractice_1()
 
-	/* ゴルーチン(errgroupテスト)*/
-	//errgroup_practice()
+// func main() {
+// 	//slice_confirmation()
+// 	//type_confirmation()
+// 	//httpPractice_1()
 
-	contex_practice_1()
+// 	/* ゴルーチン(errgroupテスト)*/
+// 	//errgroup_practice()
 
-}
+// 	contex_practice_1()
+
+// }
