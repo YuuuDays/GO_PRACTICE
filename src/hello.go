@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import arrays "github.com/YuuHikida/GO_PRACTICE/src/ArraysAndslices"
 
 const englishHelloPrefix = "Hello,"
 
@@ -17,5 +14,6 @@ func Hello(name string) string {
 
 func main() {
 	// fmt.Println(Hello())
-	fmt.Println("time is money", time.Now())
+	//fmt.Println("time is money", time.Now())
+	arrays.SumAll([]int{1, 2}, []int{2, 3})
 }
