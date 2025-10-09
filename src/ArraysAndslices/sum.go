@@ -29,3 +29,7 @@ func SumAll(args ...[]int) []int {
 
 	return sums
 }
+
+func SumAllTails(args ...[]int) []int {
+	return []int{}
+}
