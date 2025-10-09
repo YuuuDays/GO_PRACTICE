@@ -19,14 +19,12 @@ func 関数名(引数名 ...型)
 */
 func SumAll(args ...[]int) []int {
 	fmt.Println("型:", reflect.TypeOf(args)) // ->[][]int ...スライスの中のスライス
-
-	lengthOfNumbers := len(args)
+	lengthOfNumbers := len(args)            //->2
 	fmt.Println(lengthOfNumbers)
+	var sums []int
 
-	sums := make([]int, lengthOfNumbers)
-
-	for i, numbers := range args {
-		sums[i] = Sum(numbers)
+	for _, numbers := range args {
+		sums = append(sums, Sum(numbers))
 	}
 
 	return sums
