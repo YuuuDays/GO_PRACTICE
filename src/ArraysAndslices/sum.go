@@ -31,5 +31,11 @@ func SumAll(args ...[]int) []int {
 }
 
 func SumAllTails(args ...[]int) []int {
-	return []int{}
+	var sums []int
+	for _, numbers := range args {
+		tail := numbers[1:]
+		sums = append(sums, Sum(tail))
+	}
+
+	return sums
 }
