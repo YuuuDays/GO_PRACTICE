@@ -33,11 +33,15 @@ func SumAll(args ...[]int) []int {
 func SumAllTails(args ...[]int) []int {
 	var sums []int
 	for _, numbers := range args {
-		// [1:] ←これはindex1から末尾まで
-		tail := numbers[1:]
-		// appendは単純に第二引数の値を追加
-		sums = append(sums, Sum(tail))
+		if len(numbers) == 0 {
+			sums = append(sums, 0)
+		} else {
+			tail := numbers[1:]
+			// appendは単純に第二引数の値を追加
+			sums = append(sums, Sum(tail))
+		}
 	}
 
+	fmt.Println("sums=", sums)
 	return sums
 }

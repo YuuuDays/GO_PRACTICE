@@ -15,5 +15,5 @@ func Hello(name string) string {
 func main() {
 	// fmt.Println(Hello())
 	//fmt.Println("time is money", time.Now())
-	arrays.SumAll([]int{1, 2}, []int{2, 3})
+	arrays.SumAllTails([]int{1, 2}, []int{2, 3})
 }
