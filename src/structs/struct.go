@@ -3,3 +3,7 @@ package structs
 func Perimeter(x float64, y float64) float64 {
 	return (x + y) * 2
 }
+
+func Area(x float64, y float64) float64 {
+	return x * y
+}
