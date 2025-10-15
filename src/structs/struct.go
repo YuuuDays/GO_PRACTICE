@@ -1,9 +1,11 @@
 package structs
 
-func Perimeter(x float64, y float64) float64 {
-	return (x + y) * 2
+// Perimeter returns the perimeter of the rectangle.
+func Perimeter(r Rectangle) float64 {
+	return 2 * (r.Width + r.Height)
 }
 
-func Area(x float64, y float64) float64 {
-	return x * y
+// Area returns the area of the rectangle.
+func Area(r Rectangle) float64 {
+	return r.Width * r.Height
 }
