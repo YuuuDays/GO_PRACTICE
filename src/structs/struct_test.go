@@ -2,12 +2,6 @@ package structs
 
 import "testing"
 
-// 構造体
-type Rectangle struct {
-	Width  float64
-	Height float64
-}
-
 func TestPermiment(t *testing.T) {
 	rectangle := Rectangle{10.0, 10.0}
 	got := Perimeter(rectangle)
