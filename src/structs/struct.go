@@ -6,6 +6,20 @@ type Rectangle struct {
 	Height float64
 }
 
+func (r Rectangle) Area() float64 {
+	return 0
+}
+
+type Circle struct {
+	Radius float64
+}
+
+func (c Circle) Area() float64 {
+	return 0
+}
+
+//-----------------------
+
 // Perimeter returns the perimeter of the rectangle.
 func Perimeter(r Rectangle) float64 {
 	return 2 * (r.Width + r.Height)
