@@ -1,6 +1,10 @@
 package main
 
-import arrays "github.com/YuuHikida/GO_PRACTICE/src/ArraysAndslices"
+import (
+	"fmt"
+
+	"github.com/YuuHikida/GO_PRACTICE/src/pra_interface"
+)
 
 const englishHelloPrefix = "Hello,"
 
@@ -13,7 +17,10 @@ func Hello(name string) string {
 }
 
 func main() {
-	// fmt.Println(Hello())
-	//fmt.Println("time is money", time.Now())
-	arrays.SumAllTails([]int{1, 2}, []int{2, 3})
+	blog := pra_interface.Blog{
+		Title:   "taitorudesu!!",
+		Content: "naiyoudessssssssssssss",
+	}
+
+	fmt.Println(blog.GetFullArticle())
 }
