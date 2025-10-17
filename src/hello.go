@@ -22,5 +22,12 @@ func main() {
 		Content: "naiyoudessssssssssssss",
 	}
 
+	blog2 := pra_interface.Blog2{
+		Title:     "タイトルです。",
+		Paragraph: []string{"いち", "にい", "さん・・・？"},
+	}
+
 	fmt.Println(blog.GetFullArticle())
+	fmt.Println("--------------")
+	fmt.Println(blog2.GetFullArticle())
 }
