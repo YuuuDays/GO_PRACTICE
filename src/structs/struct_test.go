@@ -14,8 +14,9 @@ func TestPermiment(t *testing.T) {
 
 func TestArea(t *testing.T) {
 
+	//テストを行う前段階の関数(ヘルパー関数)
 	checkArea := func(t *testing.T, shape Shape, want float64) {
-		t.Helper()
+		t.Helper() //←これはヘルパー関数であることを明示し、エラー表示時の行番号を表示する
 		got := shape.Area()
 		if got != want {
 			t.Errorf("got %g want %g", got, want)
