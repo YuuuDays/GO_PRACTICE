@@ -47,6 +47,17 @@ func TestWallet2(t *testing.T) {
 			t.Errorf("got %s want %s", got, want)
 		}
 	}
+	//エラ-チェック用の
+	assertError := func(t *testing.T, got error, want error) {
+		t.Helper()
+		if got == nil {
+			t.Fatal("didn't get an error but wanted one")
+		}
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	}
 
 	t.Run("Deposit", func(t *testing.T) {
 		// 前処理
@@ -62,5 +73,14 @@ func TestWallet2(t *testing.T) {
 		wallet.Withdraw(Bitcoin(10))
 
 		checkMoney(t, wallet, Bitcoin(10))
+	})
+
+	t.Run("Withdraw insufficient funds", func(t *testing.T) {
+		startingBalance := Bitcoin(20)
+		wallet := Wallet{startingBalance}
+		err := wallet.Withdraw(Bitcoin(100))
+
+		checkMoney(t, wallet, startingBalance)
+		assertError(t, err, ErrInsufficientFunds)
 	})
 }
