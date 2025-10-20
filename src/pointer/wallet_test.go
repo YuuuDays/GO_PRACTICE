@@ -68,10 +68,8 @@ func TestWallet2(t *testing.T) {
 	})
 
 	t.Run("Withdraw", func(t *testing.T) {
-		// 前処理
 		wallet := Wallet{balance: Bitcoin(20)}
 		wallet.Withdraw(Bitcoin(10))
-
 		checkMoney(t, wallet, Bitcoin(10))
 	})
 
