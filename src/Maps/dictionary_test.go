@@ -92,7 +92,6 @@ func TestDelete(t *testing.T) {
 	if err != ErrNotFound {
 		t.Errorf("Expected %q to be deleted", word)
 	}
-
 }
 
 /*
