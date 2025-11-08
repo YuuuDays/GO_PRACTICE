@@ -13,14 +13,21 @@ func TestCountdown(t *testing.T) {
 	// goの標準パッケージbytesにある「バイト配列を内蔵した可変の入れ物」
 	//&bytes.Buffer{} としているのは「そのバッファのポインタ」を作ってる
 	buffer := &bytes.Buffer{}
+	spySleeper := &SpySleeper{}
 
-	Countdown(buffer)
+	Countdown(buffer, spySleeper)
 
 	// buffer.String() を呼ぶと、その溜まったバイト列が Go の string として取り出せる
 	got := buffer.String()
-	want := "3"
-
+	want := `3
+2
+1
+Go!`
 	if got != want {
 		t.Errorf("got %q want %q", got, want)
+	}
+
+	if spySleeper.Calls != 4 {
+		t.Errorf("not enough calls to sleeper, want 4 got %d", spySleeper.Calls)
 	}
 }

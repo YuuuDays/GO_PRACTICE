@@ -3,16 +3,38 @@ package main
 import (
 	"fmt"
 	"io"
-	"net/http"
+	"os"
+	"time"
 )
 
-func Greet(writer io.Writer, name string) {
-	fmt.Fprintf(writer, "Hello, %s", name)
+type Sleeper interface {
+	Sleep()
 }
 
-func MyGreeterHandler(w http.ResponseWriter, r *http.Request) {
-	Greet(w, "world")
+type SpySleeper struct {
+	Calls int
 }
+
+func (s *SpySleeper) Sleep() {
+	s.Calls++
+}
+
+type DefaultSleeper struct{}
+
+func (d *DefaultSleeper) Sleep() {
+	time.Sleep(1 * time.Second)
+}
+
+// func Greet(writer io.Writer, name string) {
+// 	fmt.Fprintf(writer, "Hello, %s", name)
+// }
+
+// func MyGreeterHandler(w http.ResponseWriter, r *http.Request) {
+// 	Greet(w, "world")
+// }
+
+const finalWord = "Go!"
+const countdownStart = 3
 
 /*
 io.Writer は共通ルール(インターフェイス)
@@ -24,10 +46,17 @@ io.Writer は共通ルール(インターフェイス)
 | `strings.Builder`     | 文字結合して溜める♡   |
 | ファイル (`*os.File`)     | ファイルに書く♡     |
 */
-func Countdown(out io.Writer) {
-	fmt.Fprint(out, 3)
+func Countdown(out io.Writer, sleeper Sleeper) {
+	for i := countdownStart; i > 0; i-- {
+		sleeper.Sleep()
+		fmt.Fprintln(out, i)
+	}
+	sleeper.Sleep()
+	fmt.Fprint(out, finalWord)
+
 }
 
 func main() {
-	// Countdown()
+	sleeper := &SpySleeper{}
+	Countdown(os.Stdout, sleeper)
 }
