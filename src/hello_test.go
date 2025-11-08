@@ -1,23 +1,26 @@
 package main
 
-import "testing"
+import (
+	"bytes"
+	"testing"
+)
 
-func TestHello(t *testing.T) {
-	t.Run("saying hello to people", func(t *testing.T) {
-		got := Hello("Chris")
-		want := "Hello,Chris"
+/*
+buffer には
+Countdown 関数が書き込んだ「バイト列（文字列）」がメモリ上に溜まっている
+*/
+func TestCountdown(t *testing.T) {
+	// goの標準パッケージbytesにある「バイト配列を内蔵した可変の入れ物」
+	//&bytes.Buffer{} としているのは「そのバッファのポインタ」を作ってる
+	buffer := &bytes.Buffer{}
 
-		if got != want {
-			t.Errorf("got %q want %q", got, want)
-		}
-	})
+	Countdown(buffer)
 
-	t.Run("say 'Hello, World' when an empty string is supplied", func(t *testing.T) {
-		got := Hello("")
-		want := "Hello, World"
+	// buffer.String() を呼ぶと、その溜まったバイト列が Go の string として取り出せる
+	got := buffer.String()
+	want := "3"
 
-		if got != want {
-			t.Errorf("got %q want %q", got, want)
-		}
-	})
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
+	}
 }
