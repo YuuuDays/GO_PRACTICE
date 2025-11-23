@@ -14,11 +14,13 @@ func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 	//URLごとにゴルーチンを起動（並行で処理が走る）
 	for _, url := range urls {
 		go func(u string) {
+			//チャネルへ送信？
 			resultChannel <- result{u, wc(u)}
 		}(url)
 	}
 
 	for i := 0; i < len(urls); i++ {
+		//受信
 		result := <-resultChannel
 		results[result.string] = result.bool
 	}
