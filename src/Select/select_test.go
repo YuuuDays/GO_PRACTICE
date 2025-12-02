@@ -17,6 +17,10 @@ func TestRacer(t *testing.T) {
 		w.WriteHeader(http.StatusOK)
 	}))
 
+	fastServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}))
+
 	slowURL := "http://www.facebook.com"
 	fastURL := "http://www.quii.co.uk"
 
@@ -26,4 +30,7 @@ func TestRacer(t *testing.T) {
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
+
+	slowServer.Close()
+	fastServer.Close()
 }
