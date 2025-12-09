@@ -7,6 +7,8 @@ import (
 )
 
 func Racer(a, b string) (winner string, error error) {
+	// <- チャネルから受け取るという意味
+	// <-は終了通知を送るまで待つという意味
 	select {
 	case <-ping(a):
 		return a, nil
@@ -18,7 +20,9 @@ func Racer(a, b string) (winner string, error error) {
 }
 
 func ping(url string) chan struct{} {
+	//チャネル　ゴルーチン同士の値を渡すために使う
 	ch := make(chan struct{})
+	//ゴルーチン
 	go func() {
 		http.Get(url)
 		close(ch)
