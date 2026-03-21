@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"reflect"
+	"strconv"
 	"time"
 
 	"golang.org/x/sync/errgroup"
@@ -188,6 +189,23 @@ func contex_practice_1() {
 	fmt.Println(ctx)
 
 }
+
+// 計算
+func money_calc(money int) int {
+	coins := []int{500, 100, 50, 10, 5, 1}
+	count := 0
+	fmt.Println(reflect.TypeOf(coins))
+	for _, coin := range coins {
+		count += money / coin // 何枚使えるか一発で計算
+		fmt.Println("coin:", coin)
+		money %= coin // 残りの金額
+		fmt.Println("money:", money)
+	}
+	fmt.Println("--------------------")
+	fmt.Println(count)
+	return count
+}
+
 func main() {
 	//slice_confirmation()
 	//type_confirmation()
@@ -196,6 +214,13 @@ func main() {
 	/* ゴルーチン(errgroupテスト)*/
 	//errgroup_practice()
 
-	contex_practice_1()
+	// contex_practice_1()
 
+	// 標準入力練習
+	var s string
+	fmt.Scan(&s)
+	toInt, _ := strconv.Atoi(s)
+	fmt.Println("入力された文字列:", s)
+	fmt.Println(reflect.TypeOf(toInt))
+	money_calc(toInt)
 }
