@@ -222,5 +222,5 @@ func main() {
 	toInt, _ := strconv.Atoi(s)
 	fmt.Println("入力された文字列:", s)
 	fmt.Println(reflect.TypeOf(toInt))
-	money_calc(toInt)
+	// money_calc(toInt)
 }
