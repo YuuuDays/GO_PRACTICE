@@ -171,7 +171,6 @@ func contex_practice_1() {
 				fmt.Println("ゴルーチンが実行中です")
 				time.Sleep(time.Second)
 			}
-
 		}
 	}()
 
@@ -223,4 +222,5 @@ func main() {
 	fmt.Println("入力された文字列:", s)
 	fmt.Println(reflect.TypeOf(toInt))
 	// money_calc(toInt)
+	// test
 }
